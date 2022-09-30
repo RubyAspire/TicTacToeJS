@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body{
+            margin: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+        }
+        .row{
+            display: flex;
+        }
+        .btn{
+            width: 150px;
+            height: 150px;
+            margin: 1px;
+            border: 0;
+            font-size: 50px;
+        }
+        .game-over-container{
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            top:0;
+            left:0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-over-body{
+            width: 20%;
+            height: 20%;
+            background-color: #fefefe;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-over-container" id="gameOver">
+        <div class="game-over-body">
+            GAME OVER
+            <button id="restart">Play</button>
+        </div>
+    </div>
+    <div class="container">
+        <h1 style="color:#fff">Tic-Tac Toe</h1>
+        <div class="row" id="1">
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+        </div>
+        <div class="row" id="2">
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+        </div>
+        <div class="row" id="3">
+            <button class="btn"></button>
+            <button class="btn"></button>
+            <button class="btn"></button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var buttons = document.querySelectorAll(".btn");
+        var activeType = "X";
+        var firstRow = document.getElementById("1");
+        var secondRow = document.getElementById("2");
+        var thirdRow = document.getElementById("3");
+        var gameOverScreen = document.getElementById("gameOver");
+        var game_over = false;
+        var click_counter = 0;
+        var btnRestart = document.getElementById("restart");
+        btnRestart.addEventListener("click",restart);
+        for(let i = 0; i < buttons.length; i++)
+        {
+            buttons[i].addEventListener("click", buttonClick);
+        }
+
+        function buttonClick(){
+            if(this.textContent != ""){
+                return;
+            }
+            this.textContent = activeType;
+            click_counter += 1;
+            if(activeType == "X"){
+                activeType = "O"
+            }else{
+                activeType = "X"
+            }
+            checkHorizontalRows()
+            checkVerticals()
+            checkDiagonals()
+            GameOver()
+        }
+
+        function checkHorizontalRows(){
+            if(firstRow.children[0].textContent ==  firstRow.children[1].textContent && firstRow.children[0].textContent == firstRow.children[2].textContent &&  firstRow.children[0].textContent != ""){
+                for(let i = 0; i<  3; i++){
+                    firstRow.children[i].style.backgroundColor = "#90EE90";
+                }
+                game_over =true;
+            }
+
+            if(secondRow.children[0].textContent ==  secondRow.children[1].textContent && secondRow.children[0].textContent == secondRow.children[2].textContent && secondRow.children[0].textContent != ""){
+                for(let i = 0; i<  3; i++){
+                    secondRow.children[i].style.backgroundColor = "#90EE90";
+                }
+                game_over =true;
+            }
+
+            if(thirdRow.children[0].textContent ==  thirdRow.children[1].textContent && thirdRow.children[0].textContent == thirdRow.children[2].textContent && thirdRow.children[0].textContent != ""){
+                for(let i = 0; i<  3; i++){
+                    thirdRow.children[i].style.backgroundColor = "#90EE90";
+                }
+                game_over =true;
+            }
+        }
+
+        function checkVerticals(){
+            if(firstRow.children[0].textContent ==  secondRow.children[0].textContent && firstRow.children[0].textContent == thirdRow.children[0].textContent && firstRow.children[0].textContent != ""){
+                firstRow.children[0].style.backgroundColor = "#90EE90";
+                secondRow.children[0].style.backgroundColor = "#90EE90";
+                thirdRow.children[0].style.backgroundColor = "#90EE90";
+                game_over =true;
+            }
+
+            if(firstRow.children[1].textContent ==  secondRow.children[1].textContent && firstRow.children[1].textContent == thirdRow.children[1].textContent && firstRow.children[1].textContent != ""){
+                firstRow.children[1].style.backgroundColor = "#90EE90";
+                secondRow.children[1].style.backgroundColor = "#90EE90";
+                thirdRow.children[1].style.backgroundColor = "#90EE90";
+                game_over =true;
+            }
+
+            if(firstRow.children[2].textContent ==  secondRow.children[2].textContent && firstRow.children[2].textContent == thirdRow.children[2].textContent && firstRow.children[2].textContent != ""){
+                firstRow.children[2].style.backgroundColor = "#90EE90";
+                secondRow.children[2].style.backgroundColor = "#90EE90";
+                thirdRow.children[2].style.backgroundColor = "#90EE90";
+                game_over =true;
+            }
+        }
+
+        function checkDiagonals(){
+            if(firstRow.children[0].textContent ==  secondRow.children[1].textContent && firstRow.children[0].textContent == thirdRow.children[2].textContent && firstRow.children[0].textContent != ""){
+                firstRow.children[0].style.backgroundColor = "#90EE90";
+                secondRow.children[1].style.backgroundColor = "#90EE90";
+                thirdRow.children[2].style.backgroundColor = "#90EE90";
+                game_over =true;
+            }
+
+            if(firstRow.children[2].textContent ==  secondRow.children[1].textContent && firstRow.children[2].textContent == thirdRow.children[0].textContent && firstRow.children[2].textContent != ""){
+                firstRow.children[2].style.backgroundColor = "#90EE90";
+                secondRow.children[1].style.backgroundColor = "#90EE90";
+                thirdRow.children[0].style.backgroundColor = "#90EE90";
+                game_over =true;
+            }
+        }
+
+        function GameOver(){
+            if(game_over){
+                gameOverScreen.style.display = "flex"
+                return;
+            }
+            if(click_counter == 9 && !game_over){
+                for(let i = 0; i < 3; i++){
+                    firstRow.children[i].style.backgroundColor = "red";
+                    secondRow.children[i].style.backgroundColor = "red";
+                    thirdRow.children[i].style.backgroundColor = "red";
+                }
+                gameOverScreen.style.display = "flex"
+            }
+           
+        }
+
+        function restart(){
+            for(let i = 0; i < 3; i++){
+                firstRow.children[i].style.backgroundColor = "";
+                secondRow.children[i].style.backgroundColor = "";
+                thirdRow.children[i].style.backgroundColor = "";
+
+                firstRow.children[i].textContent ="";
+                secondRow.children[i].textContent ="";
+                thirdRow.children[i].textContent ="";
+            }
+            click_counter = 0;
+            game_over = false;
+            gameOverScreen.style.display = "none"
+            activeType = "X";
+        }
+    </script>
+</body>
+</html>
